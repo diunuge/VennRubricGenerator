@@ -20,7 +20,6 @@
 	<script src="scripts/angular/angular.min.js"></script>
 	<h2>Rubric Generator</h2>
 	<div ng-app="myApp" ng-controller="rubricController">
-		{{vennDiagram}}
 		</br>
 		{{rubric}}
 		<div ng-include="'views/question.htm'"></div>
@@ -31,7 +30,36 @@
 	
 	var app = angular.module("myApp", []);
 	
-	app.controller("rubricController",function($scope, $http, $log){
+	app.factory('MathService', function() {
+		var factory = {};
+		
+		factory.multiply = function(a, b) {
+			return a * b;
+		}
+		
+		factory.add = function(a, b) {
+			return a + b;
+		}
+		
+		return factory;
+	});
+		
+	app.service('CalcService', function(MathService){
+		
+		this.square = function(a) {
+			return MathService.multiply(a,a);
+		}
+		
+		this.sumInt =function(arr) {
+			var total = 0;
+			for(var i in arr) { 
+				total += parseInt(arr[i], 10); 
+			}
+			return total;
+		}
+	});
+	
+	app.controller("rubricController",function($scope, $http, $log, CalcService	){
 	
 		$scope.rubric = this;
 		$scope.rubric.question = {};
@@ -60,50 +88,80 @@
 		}
 	});
 	
-	app.controller("questionController", function($scope, $http){
+	app.controller("questionController", function($scope, $http, CalcService){
 		
 		$scope.subQ = this;
+		$scope.totalMarks = 0;
+		$scope.subQ.size = 0;
 	
 		$scope.subQ.displayedSubQuestion = [];
+		$scope.subQ.marks = [];
 		
 		$scope.subQ.addsubQ = function() {
-		  $scope.subQ.displayedSubQuestion.push("views/subQuestion.htm");
+			$scope.subQ.displayedSubQuestion.push("views/subQuestion.htm");
+			$scope.subQ.marks.push(0);
+			$scope.subQ.size += 1;
 		}
 		
-		//$scope.subQ = this.subQ;
+		$scope.subQ.setToatalMarks = function(){
+			$scope.totalMarks = CalcService.sumInt($scope.subQ.marks);
+			$scope.rubric.totalMarks = $scope.totalMarks;
+		}
 	});
 	
-	app.controller("subQuestionController", function($scope, $http){
+	app.controller("subQuestionController", function($scope, $http, CalcService){
 	
+		$scope.index = $scope.subQ.size-1;
+		//$scope.totalMarks = 0;
+		$scope.modelDiagram = "dm01";
+		
 		$scope.markSets = this;
+		$scope.markSets.size = 0;
 	
 		$scope.markSets.displayedMarkSet = [];
+		$scope.markSets.marks = [];
 		
 		$scope.markSets.addMarkSet = function() {
-		  $scope.markSets.displayedMarkSet.push("views/markSet.htm");
+			$scope.markSets.displayedMarkSet.push("views/markSet.htm");
+			$scope.markSets.marks.push(0);
+			$scope.markSets.size += 1;
+		}
+		
+		$scope.markSets.setToatalMarks = function(){
+			$scope.subQ.marks[$scope.index] = CalcService.sumInt($scope.markSets.marks);
+			$scope.subQ.setToatalMarks();
 		}
 	});
 	
-	app.controller("markSetController", function($scope, $http){
-	
+	app.controller("markSetController", function($scope, $http, CalcService){
+		
+		$scope.index = $scope.markSets.size-1;
+		
 		$scope.markSetData = this;
+		$scope.markSetData.zoneSize = 0;
+		$scope.markSetData.setSize = 0;
 	
 		$scope.markSetData.displayedZone = [];
 		$scope.markSetData.displayedSet = [];
 		
 		$scope.markSetData.addZone = function() {
-		  $scope.markSetData.displayedZone.push("views/zone.htm");
+			$scope.markSetData.displayedZone.push("views/zone.htm");			
+			$scope.markSetData.zoneSize += 1;
 		}
 		
 		$scope.markSetData.addSet = function() {
-		  $scope.markSetData.displayedZone.push("views/set.htm");
+			$scope.markSetData.displayedZone.push("views/set.htm");			
+			$scope.markSetData.setSize += 1;
 		}
 	});
 	
-	app.controller("zoneController", function($scope, $log){
+	app.controller("zoneController", function($scope, $log, CalcService){
 		
 		
+		$scope.index = $scope.markSetData.zoneSize-1;
 		$scope.zone = this;
+		$scope.zoneColor = "ignore";
+		$scope.zoneIdentifire = $scope.vennDiagram.infographic.data_set.zone[0].label
 		
 		$scope.zone.updateLabel = function(){
 		
@@ -119,11 +177,15 @@
 			}
 		}
 		
+		$scope.zone.updateLabel();
+		
 		$log.info("ZoneController initialized");
 	});
 	
-	app.controller("setController", function($scope, $log){
-	
+	app.controller("setController", function($scope, $log, CalcService){
+		
+		$scope.index = $scope.markSetData.setSize-1;
+		$scope.setName = $scope.vennDiagram.infographic.sets.set[0];
 		$log.info("SetController initialized");
 	});
 	

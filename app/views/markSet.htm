@@ -5,10 +5,10 @@
 				<p><strong>Mark Set</strong></p>
 			</td>
 			<td>
-				Id: <input type="text" name="fname"></input>
+				Id: <input type="text" data-ng-model="index" data-ng-disabled="true"></input>
 			</td>
 			<td>
-				Marks: <input type="text" value="0"></input>
+				Marks: <input type="text" data-ng-model="markSets.marks[index]" data-ng-change="markSets.setToatalMarks()"></input>
 			</td>
 			<td>
 				<p>Method</p>

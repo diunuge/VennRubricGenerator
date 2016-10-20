@@ -3,6 +3,7 @@
 		<tr>
 			<td>
 				<p><strong>Zone</strong></p>
+				{{index}}
 			</td>
 			<td>
 				<p>Identifire</p>
@@ -17,7 +18,7 @@
 			</td>
 			<td>
 				<select>
-				  <option value="volvo">ignore</option>
+				  <option selected="selected">ignore</option>
 				  <option data-ng-model="labelOption">{{labelOption}}</option>
 				</select>
 			</td>
@@ -26,8 +27,8 @@
 			</td>
 			<td>
 				<select data-ng-model="zoneColor">
-				  <option value="volvo">ignore</option>
-				  <option value="saab">colored</option>
+				  <option selected="selected">ignore</option>
+				  <option>colored</option>
 				</select>
 			</td>
 		</tr>
