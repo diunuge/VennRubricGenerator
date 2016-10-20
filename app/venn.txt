@@ -1,0 +1,41 @@
+{"infographic": {
+  "sets": {"set": [
+    "රතු පෑන්",
+    "නිල් පෑන්"
+  ]},
+  "no_of_sets": 2,
+  "data_set": {"zone": [
+    {
+      "color": null,
+      "label": "~රතු පෑන්.~නිල් පෑන්",
+      "value": 5
+    },
+    {
+      "color": null,
+      "label": "~රතු පෑන්.නිල් පෑන්",
+      "value": "none"
+    },
+    {
+      "color": null,
+      "label": "රතු පෑන්.~නිල් පෑන්",
+      "value": "none"
+    },
+    {
+      "color": null,
+      "label": "රතු පෑන්.නිල් පෑන්",
+      "value": 9
+    },
+    {
+      "color": null,
+      "label": "රතු පෑන්",
+      "value": 17
+    },
+    {
+      "color": null,
+      "label": "නිල් පෑන්",
+      "value": 22
+    }
+  ]},
+  "type": "Venn Diagram",
+  "title": "Untitled"
+}}

@@ -1,0 +1,123 @@
+<html>
+<head>
+	<title>Angular JS Includes</title>
+	<meta charset="utf-8">
+	<style>
+		table, th , td {
+		border: 1px solid grey;
+		border-collapse: collapse;
+		padding: 5px;
+		}
+		table tr:nth-child(odd) {
+		background-color: #f2f2f2;
+		}
+		table tr:nth-child(even) {
+		background-color: #ffffff;
+		}
+	</style>
+</head>
+<body>
+	<script src="scripts/angular/angular.min.js"></script>
+	<h2>Rubric Generator</h2>
+	<div ng-app="myApp" ng-controller="studentController">
+		{{rubric}}
+		<div ng-include="'views/question.htm'"></div>
+	</div>
+	<script>
+	
+	var app = angular.module("myApp", []);
+	
+	app.controller("studentController",function($scope,$http){
+		var urlStr="data.txt";
+		//$http.get(urlStr).success( function(response) {
+		//	$scope.students = response;
+		//});
+		
+		
+		//$scope.subQ.addsubQ = function() {
+		//  subQ.displayedSubQuestion.push("views/subQuestion.htm");
+		//};
+		
+		$http({
+			method: 'GET',
+            url: urlStr,
+            headers:
+            {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT',
+				'Access-Control-Allow-Headers': 'Content-Type, Accept'
+            }                   
+        })
+        .success( function(response) {
+			$scope.students = response;
+		});
+		
+		var urlStr="venn.txt";		
+		$http({
+			method: 'GET',
+            url: urlStr,
+            headers:
+            {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT',
+				'Access-Control-Allow-Headers': 'Content-Type, Accept'
+            }                   
+        })
+        .success( function(response) {
+			$scope.rubric = response;
+		});
+	});
+	
+	app.controller("questionController", function($scope, $http){
+		
+		$scope.subQ = this;
+	
+		$scope.subQ.displayedSubQuestion = [];
+		
+		$scope.subQ.addsubQ = function() {
+		  $scope.subQ.displayedSubQuestion.push("views/subQuestion.htm");
+		}
+		
+		//$scope.subQ = this.subQ;
+	});
+	
+	app.controller("subQuestionController", function($scope, $http){
+	
+		$scope.markSets = this;
+	
+		$scope.markSets.displayedMarkSet = [];
+		
+		$scope.markSets.addMarkSet = function() {
+		  $scope.markSets.displayedMarkSet.push("views/markSet.htm");
+		}
+	});
+	
+	app.controller("markSetController", function($scope, $http){
+	
+		$scope.markSetData = this;
+	
+		$scope.markSetData.displayedZone = [];
+		$scope.markSetData.displayedSet = [];
+		
+		$scope.markSetData.addZone = function() {
+		  $scope.markSetData.displayedZone.push("views/zone.htm");
+		}
+		
+		$scope.markSetData.addSet = function() {
+		  $scope.markSetData.displayedZone.push("views/set.htm");
+		}
+	});
+	
+	app.controller("zoneController", function($scope, $http){
+	
+		
+	});
+	
+	app.controller("setController", function($scope, $http){
+	
+		
+	});
+	
+	</script>
+</body>
+</html>

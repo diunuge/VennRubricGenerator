@@ -1,0 +1,53 @@
+<div class="col-md-12" data-ng-controller="markSetController">
+	<table>
+		<tr>
+			<td>
+				<h3>Mark Set</h3><span></span>
+			</td>
+			<td>
+				Id: <input type="text" name="fname"></input>
+			</td>
+			<td>
+				Marks: <input type="text" name="fname"></input>
+			</td>
+			<td>
+				<p>Method</p>
+			</td>
+			<td>
+				<select>
+				  <option value="volvo">Volvo</option>
+				  <option value="saab">Saab</option>
+				  <option value="mercedes">Mercedes</option>
+				  <option value="audi">Audi</option>
+				</select>
+			</td>
+			<td>
+				<button data-ng-click="markSetData.addZone()">Add Zone</button>
+			</td>
+			<td>
+				<button data-ng-click="markSetData.addSet()">Add Set</button>
+			</td>
+		</tr>
+		<tr>
+			<table>
+				<tr>
+					<td width="3%"></td>
+					<td>
+						<div ng-repeat="zone in markSetData.displayedZone track by $index">
+							<ng-include src="zone"></ng-include>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="3%"></td>
+					<td>
+						<div ng-repeat="set in markSetData.displayedSet track by $index">
+							<ng-include src="set"></ng-include>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</tr>
+	</table>
+
+</div>

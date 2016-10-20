@@ -1,0 +1,30 @@
+<div class="col-md-12" data-ng-controller="questionController">
+	<table>
+		<tr>
+			<td width="50">
+				<b>Question</b><span></span>
+			</td>
+			<td>
+				Id: <input type="text" name="id"></input>
+			</td>
+			<td>
+				Total Marks: <input type="text" name="marks"></input>
+			</td>
+			<td>
+				<button data-ng-click="subQ.addsubQ()">Add Sub Question</button>
+			</td>
+		</tr>
+		<tr>
+			<table>
+				<tr>
+					<td width="3%"></td>
+					<td>
+						<div ng-repeat="subQuestion in subQ.displayedSubQuestion track by $index">
+							<ng-include src="subQuestion"></ng-include>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</tr>
+	</table>
+</div>
