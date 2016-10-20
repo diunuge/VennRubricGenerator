@@ -2,13 +2,13 @@
 	<table>
 		<tr>
 			<td width="50">
-				<b>Question</b><span></span>
+				<p><strong>Question</strong></p>
 			</td>
 			<td>
-				Id: <input type="text" name="id"></input>
+				Id: <input type="text" name="id" data-ng-model="rubric.question.id"></input>
 			</td>
 			<td>
-				Total Marks: <input type="text" name="marks"></input>
+				Total Marks: <input type="text" data-ng-model="rubric.question.totalMarks"></input>
 			</td>
 			<td>
 				<button data-ng-click="subQ.addsubQ()">Add Sub Question</button>

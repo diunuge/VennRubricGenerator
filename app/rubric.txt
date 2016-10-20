@@ -1,0 +1,60 @@
+{"rubric": {
+   "question": {
+      "subQuestion": [
+         {
+            "markSet": {
+               "method": "all",
+               "zone": [
+                  {
+                     "color": "ignore",
+                     "label": "නිල් පෑන්",
+                     "value": 22
+                  },
+                  {
+                     "color": "ignore",
+                     "label": "රතු පෑන්",
+                     "value": 17
+                  },
+                  {
+                     "color": "ignore",
+                     "label": "~රතු පෑන්.~නිල් පෑන්",
+                     "value": 5
+                  }
+               ],
+               "id": 0,
+               "marks": 2
+            },
+            "feedback": {
+               "fail": "",
+               "success": ""
+            },
+            "id": "q01-01",
+            "totalMarks": 2,
+            "modelDiagram": "dm02"
+         },
+         {
+            "markSet": {
+               "method": "all",
+               "zone": {
+                  "color": "ignore",
+                  "label": "රතු පෑන්.නිල් පෑන්",
+                  "value": 9
+               },
+               "id": 0,
+               "marks": 2
+            },
+            "feedback": {
+               "fail": "",
+               "success": ""
+            },
+            "id": "q01-02",
+            "totalMarks": 2,
+            "modelDiagram": "dm01"
+         }
+      ],
+      "id": "q01",
+      "totalMarks": 5
+   },
+   "type": "Venn Diagram",
+   "mandatory": ""
+}}

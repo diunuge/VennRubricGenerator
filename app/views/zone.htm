@@ -2,17 +2,14 @@
 	<table>
 		<tr>
 			<td>
-				<h3>Zone</h3><span></span>
+				<p><strong>Zone</strong></p>
 			</td>
 			<td>
 				<p>Identifire</p>
 			</td>
 			<td>
-				<select>
-				  <option value="volvo">Volvo</option>
-				  <option value="saab">Saab</option>
-				  <option value="mercedes">Mercedes</option>
-				  <option value="audi">Audi</option>
+				<select data-ng-model="zoneIdentifire" data-ng-change="zone.updateLabel()">
+				  <option data-ng-repeat="zone in vennDiagram.infographic.data_set.zone">{{zone.label}}</option>
 				</select>
 			</td>
 			<td>
@@ -20,21 +17,17 @@
 			</td>
 			<td>
 				<select>
-				  <option value="volvo">Volvo</option>
-				  <option value="saab">Saab</option>
-				  <option value="mercedes">Mercedes</option>
-				  <option value="audi">Audi</option>
+				  <option value="volvo">ignore</option>
+				  <option data-ng-model="labelOption">{{labelOption}}</option>
 				</select>
 			</td>
 			<td>
 				<p>Color</p>
 			</td>
 			<td>
-				<select>
-				  <option value="volvo">Volvo</option>
-				  <option value="saab">Saab</option>
-				  <option value="mercedes">Mercedes</option>
-				  <option value="audi">Audi</option>
+				<select data-ng-model="zoneColor">
+				  <option value="volvo">ignore</option>
+				  <option value="saab">colored</option>
 				</select>
 			</td>
 		</tr>

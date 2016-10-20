@@ -19,39 +19,27 @@
 <body>
 	<script src="scripts/angular/angular.min.js"></script>
 	<h2>Rubric Generator</h2>
-	<div ng-app="myApp" ng-controller="studentController">
+	<div ng-app="myApp" ng-controller="rubricController">
+		{{vennDiagram}}
+		</br>
 		{{rubric}}
 		<div ng-include="'views/question.htm'"></div>
+		
+		<button data-ng-click="submit()">Submit</button>
 	</div>
 	<script>
 	
 	var app = angular.module("myApp", []);
 	
-	app.controller("studentController",function($scope,$http){
-		var urlStr="data.txt";
-		//$http.get(urlStr).success( function(response) {
-		//	$scope.students = response;
-		//});
-		
-		
-		//$scope.subQ.addsubQ = function() {
-		//  subQ.displayedSubQuestion.push("views/subQuestion.htm");
-		//};
-		
-		$http({
-			method: 'GET',
-            url: urlStr,
-            headers:
-            {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT',
-				'Access-Control-Allow-Headers': 'Content-Type, Accept'
-            }                   
-        })
-        .success( function(response) {
-			$scope.students = response;
-		});
-		
+	app.controller("rubricController",function($scope, $http, $log){
+	
+		$scope.rubric = this;
+		$scope.rubric.question = {};
+		$scope.rubric.question.type = "Venn Diagram";
+		$scope.rubric.question.mandatory = "";
+		$scope.rubric.question.subQuestion = [];
+		$scope.rubric.question.totalMarks = 0;
+				
 		var urlStr="venn.txt";		
 		$http({
 			method: 'GET',
@@ -64,8 +52,12 @@
             }                   
         })
         .success( function(response) {
-			$scope.rubric = response;
+			$scope.vennDiagram = response;
 		});
+		
+		$scope.submit = function(){
+			$log.info("Fix this");
+		}
 	});
 	
 	app.controller("questionController", function($scope, $http){
@@ -108,14 +100,31 @@
 		}
 	});
 	
-	app.controller("zoneController", function($scope, $http){
-	
+	app.controller("zoneController", function($scope, $log){
 		
+		
+		$scope.zone = this;
+		
+		$scope.zone.updateLabel = function(){
+		
+			//$log.info($scope.vennDiagram.infographic.data_set.zone);
+			
+			var arrayLength = $scope.vennDiagram.infographic.data_set.zone.length;
+			for (var i = 0; i < arrayLength; i++) {
+				var zone = $scope.vennDiagram.infographic.data_set.zone[i];
+				
+				if($scope.zoneIdentifire == zone.label){
+					$scope.labelOption = zone.value;
+				}
+			}
+		}
+		
+		$log.info("ZoneController initialized");
 	});
 	
-	app.controller("setController", function($scope, $http){
+	app.controller("setController", function($scope, $log){
 	
-		
+		$log.info("SetController initialized");
 	});
 	
 	</script>
