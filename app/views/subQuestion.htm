@@ -5,13 +5,13 @@
 				<p><strong>Sub Question</strong></p>
 			</td>
 			<td>
-				Id: <input type="text" data-ng-model="index" data-ng-disabled="true"></input>
+				Id: <input type="text" data-ng-model="indexSubQ" data-ng-disabled="true"></input>
 			</td>
 			<td>
 				Model Diagram: <input type="text" data-ng-model="modelDiagram" data-ng-disabled="true"></input>
 			</td>
 			<td>
-				Total Marks: <input type="text" data-ng-model="subQ.marks[index]" data-ng-change="subQ.setToatalMarks()" data-ng-disabled="true"></input>
+				Total Marks: <input type="text" data-ng-model="subQ.marks[indexSubQ]" data-ng-change="updatesubQ()" data-ng-disabled="true"></input>
 			</td>
 			<td>
 				<button data-ng-click="markSets.addMarkSet()">Add Mark Set</button>

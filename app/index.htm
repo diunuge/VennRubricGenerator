@@ -63,10 +63,11 @@
 	
 		$scope.rubric = this;
 		$scope.rubric.question = {};
+		$scope.rubric.question.id = "q01";
+		$scope.rubric.question.totalMarks = 0;
 		$scope.rubric.question.type = "Venn Diagram";
 		$scope.rubric.question.mandatory = "";
 		$scope.rubric.question.subQuestion = [];
-		$scope.rubric.question.totalMarks = 0;
 				
 		var urlStr="venn.txt";		
 		$http({
@@ -105,13 +106,13 @@
 		
 		$scope.subQ.setToatalMarks = function(){
 			$scope.totalMarks = CalcService.sumInt($scope.subQ.marks);
-			$scope.rubric.totalMarks = $scope.totalMarks;
+			$scope.rubric.question.totalMarks = $scope.totalMarks;
 		}
 	});
 	
-	app.controller("subQuestionController", function($scope, $http, CalcService){
+	app.controller("subQuestionController", function($scope, $http, CalcService, $log){
 	
-		$scope.index = $scope.subQ.size-1;
+		$scope.indexSubQ = $scope.subQ.size-1;
 		//$scope.totalMarks = 0;
 		$scope.modelDiagram = "dm01";
 		
@@ -119,7 +120,17 @@
 		$scope.markSets.size = 0;
 	
 		$scope.markSets.displayedMarkSet = [];
-		$scope.markSets.marks = [];
+		$scope.markSets.marks = [];		
+		
+		//set rubric
+		$scope.rubric.question.subQuestion[$scope.indexSubQ] = {};
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].id = $scope.indexSubQ;
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].totalMarks = 0;
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].modelDiagram = $scope.modelDiagram;
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].feedback = {};
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].feedback.success = "";
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].feedback.fail = "";
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet = [];
 		
 		$scope.markSets.addMarkSet = function() {
 			$scope.markSets.displayedMarkSet.push("views/markSet.htm");
@@ -128,14 +139,20 @@
 		}
 		
 		$scope.markSets.setToatalMarks = function(){
-			$scope.subQ.marks[$scope.index] = CalcService.sumInt($scope.markSets.marks);
+			$scope.subQ.marks[$scope.indexSubQ] = CalcService.sumInt($scope.markSets.marks);
 			$scope.subQ.setToatalMarks();
+		}
+		
+		$scope.updateSubQ = function(){
+			$scope.subQ.setToatalMarks();
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].totalMarks = $scope.subQ.marks[$scope.indexSubQ];
 		}
 	});
 	
 	app.controller("markSetController", function($scope, $http, CalcService){
 		
-		$scope.index = $scope.markSets.size-1;
+		$scope.indexMarkSet = $scope.markSets.size-1;
+		$scope.method = "all";
 		
 		$scope.markSetData = this;
 		$scope.markSetData.zoneSize = 0;
@@ -143,6 +160,14 @@
 	
 		$scope.markSetData.displayedZone = [];
 		$scope.markSetData.displayedSet = [];
+		
+		//set rubric
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet] = {};
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].id = $scope.indexMarkSet;
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].marks = 0;
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].method = $scope.method;
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].zone = [];
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].set = [];
 		
 		$scope.markSetData.addZone = function() {
 			$scope.markSetData.displayedZone.push("views/zone.htm");			
@@ -153,15 +178,32 @@
 			$scope.markSetData.displayedZone.push("views/set.htm");			
 			$scope.markSetData.setSize += 1;
 		}
+		
+		$scope.updateMarkSet = function(){
+			$scope.markSets.setToatalMarks();
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].marks = $scope.markSets.marks[$scope.indexMarkSet];
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].method = $scope.method;
+			$scope.updateSubQ();
+		}
 	});
 	
 	app.controller("zoneController", function($scope, $log, CalcService){
 		
 		
-		$scope.index = $scope.markSetData.zoneSize-1;
+		$scope.indexZone = $scope.markSetData.zoneSize-1;
 		$scope.zone = this;
 		$scope.zoneColor = "ignore";
-		$scope.zoneIdentifire = $scope.vennDiagram.infographic.data_set.zone[0].label
+		$scope.zoneIdentifire = $scope.vennDiagram.infographic.data_set.zone[0].label;
+		$scope.zoneLabel = "ignore";
+		
+		//set rubric
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].zone[$scope.indexZone] = {};
+		
+		$scope.updateZone = function(){
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].zone[$scope.indexZone].label = $scope.zoneIdentifire;
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].zone[$scope.indexZone].value = $scope.zoneLabel;
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].zone[$scope.indexZone].color = $scope.zoneColor;
+		}
 		
 		$scope.zone.updateLabel = function(){
 		
@@ -175,6 +217,8 @@
 					$scope.labelOption = zone.value;
 				}
 			}
+			
+			$scope.updateZone();
 		}
 		
 		$scope.zone.updateLabel();
@@ -184,8 +228,18 @@
 	
 	app.controller("setController", function($scope, $log, CalcService){
 		
-		$scope.index = $scope.markSetData.setSize-1;
+		$scope.indexSet = $scope.markSetData.setSize-1;
 		$scope.setName = $scope.vennDiagram.infographic.sets.set[0];
+		
+		//set rubric
+		$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].set[$scope.indexSet] = {};
+		
+		$scope.updateSet = function(){
+			$scope.rubric.question.subQuestion[$scope.indexSubQ].markSet[$scope.indexMarkSet].set[$scope.indexSet].label = $scope.setName;
+		}
+		
+		$scope.updateSet();
+		
 		$log.info("SetController initialized");
 	});
 	

@@ -9,7 +9,7 @@
 				<p>Label</p>
 			</td>
 			<td>
-				<select data-ng-model="setName">
+				<select data-ng-model="setName" data-ng-change="updateSet()">
 				  <option data-ng-repeat="setNameLabel in vennDiagram.infographic.sets.set">{{setNameLabel}}</option>
 				</select>
 			</td>

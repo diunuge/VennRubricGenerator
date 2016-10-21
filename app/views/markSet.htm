@@ -5,20 +5,20 @@
 				<p><strong>Mark Set</strong></p>
 			</td>
 			<td>
-				Id: <input type="text" data-ng-model="index" data-ng-disabled="true"></input>
+				Id: <input type="text" data-ng-model="indexMarkSet" data-ng-disabled="true"></input>
 			</td>
 			<td>
-				Marks: <input type="text" data-ng-model="markSets.marks[index]" data-ng-change="markSets.setToatalMarks()"></input>
+				Marks: <input type="text" data-ng-model="markSets.marks[indexMarkSet]" data-ng-change="updateMarkSet()"></input>
 			</td>
 			<td>
 				<p>Method</p>
 			</td>
 			<td>
-				<select>
-				  <option value="volvo">all</option>
-				  <option value="saab">any_1</option>
-				  <option value="mercedes">any_2</option>
-				  <option value="audi">any_3</option>
+				<select data-ng-model="method" data-ng-change="updateMarkSet()">
+				  <option>all</option>
+				  <option>any_1</option>
+				  <option>any_2</option>
+				  <option>any_3</option>
 				</select>
 			</td>
 			<td>

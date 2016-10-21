@@ -17,7 +17,7 @@
 				<p>Label</p>
 			</td>
 			<td>
-				<select>
+				<select data-ng-model="zoneLabel" data-ng-change="updateZone()">
 				  <option selected="selected">ignore</option>
 				  <option data-ng-model="labelOption">{{labelOption}}</option>
 				</select>
@@ -26,7 +26,7 @@
 				<p>Color</p>
 			</td>
 			<td>
-				<select data-ng-model="zoneColor">
+				<select data-ng-model="zoneColor" data-ng-change="updateZone()">
 				  <option selected="selected">ignore</option>
 				  <option>colored</option>
 				</select>
